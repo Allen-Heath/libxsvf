@@ -1,0 +1,7 @@
+*.a
+*.o
+*.d
+
+xsvftool-gpio
+xsvftool-ft232h
+xsvftool-xpcu
