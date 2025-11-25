@@ -374,22 +374,40 @@ int libxsvf_svf(struct libxsvf_host *h)
 
 		if (!strtokencmp(p, "FREQUENCY")) {
 			unsigned long number = 0;
+			unsigned long fract = 0;
+			int dotseen = 0;
 			int exp = 0;
 			p += strtokenskip(p);
 			if (*p < '0' || *p > '9')
 				goto syntax_error;
-			while (*p >= '0' && *p <= '9') {
-				number = number*10 + (*p - '0');
+			while ((*p >= '0' && *p <= '9') || *p == '.') {
+				if(*p == '.') {
+					if (dotseen)
+						break;
+					else
+						dotseen = 1;
+				}
+				else if(dotseen && *p != '0')
+					fract = fract*10 + (*p - '0');
+				else
+					number = number*10 + (*p - '0');
 				p++;
 			}
 			if(*p == 'E' || *p == 'e') {
 				p++;
+				if(*p == '+')
+					p++;
 				while (*p >= '0' && *p <= '9') {
 					exp = exp*10 + (*p - '0');
 					p++;
 				}
-				for(i=0; i<exp; i++)
+
+				for(i=0; i<exp; i++) {
 					number *= 10;
+					fract *= 10;
+				}
+
+				number += fract;
 			}
 			while (*p == ' ') {
 				p++;
@@ -459,7 +477,9 @@ int libxsvf_svf(struct libxsvf_host *h)
 				}
 				if(*p == 'E' || *p == 'e') {
 					p++;
-					if(*p == '-') {
+					if(*p == '+')
+						p++;
+					else if(*p == '-') {
 						expsign = -1;
 						p++;
 					}
