@@ -53,7 +53,7 @@ help:
 	@echo "                .... install everything in /usr/local/"
 	@echo ""
 
-all: libxsvf.a xsvftool-gpio xsvftool-ft232h xsvftool-xpcu
+all: libxsvf.a xsvftool-dummy xsvftool-gpio xsvftool-ft232h xsvftool-xpcu
 
 install: all
 	install -Dt /usr/local/bin/ xsvftool-gpio xsvftool-ft232h xsvftool-xpcu
@@ -81,7 +81,7 @@ xsvftool-xpcu: libxsvf.a xsvftool-xpcu.src/*.c xsvftool-xpcu.src/*.h \
 
 clean:
 	$(MAKE) -C xsvftool-xpcu.src clean
-	rm -f xsvftool-gpio xsvftool-ft232h xsvftool-xpcu
+	rm -f xsvftool-dummy xsvftool-gpio xsvftool-ft232h xsvftool-xpcu
 	rm -f libxsvf.a *.o *.d
 
 -include *.d
