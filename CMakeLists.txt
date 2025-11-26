@@ -53,5 +53,5 @@ endif ()
 
 if (XSVFTOOL_FT232H)
   add_executable(xsvftool-ft232h xsvftool-ft232h.c)
-  target_link_libraries(xsvftool-ft232h xsvf ftdi m)
+  target_link_libraries(xsvftool-ft232h xsvf ftdi1 m)
 endif ()
