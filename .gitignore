@@ -2,6 +2,7 @@
 *.o
 *.d
 
+xsvftool-dummy
 xsvftool-gpio
 xsvftool-ft232h
 xsvftool-xpcu

@@ -34,6 +34,9 @@ help:
 	@echo "  $(MAKE) libxsvf.a"
 	@echo "                .... build only the library"
 	@echo ""
+	@echo "  $(MAKE) xsvftool-dummy"
+	@echo "                .... build the library and xsvftool-dummy"
+	@echo ""
 	@echo "  $(MAKE) xsvftool-gpio"
 	@echo "                .... build the library and xsvftool-gpio"
 	@echo ""
@@ -61,6 +64,8 @@ libxsvf.a: tap.o statename.o memname.o svf.o xsvf.o scan.o play.o
 	rm -f libxsvf.a
 	$(AR) qc $@ $^
 	$(RANLIB) $@
+
+xsvftool-dummy: libxsvf.a xsvftool-dummy.o
 
 xsvftool-gpio: libxsvf.a xsvftool-gpio.o
 
