@@ -39,9 +39,9 @@
 #define BUFFER_SIZE (1024*16)
 
 #define BLOCK_WRITE
-// #define ASYNC_WRITE
-// #define BACKGROUND_READ
-// #define INTERLACED_READ_WRITE
+#define ASYNC_WRITE
+#define BACKGROUND_READ
+#define INTERLACED_READ_WRITE
 
 #include <sys/time.h>
 #include <unistd.h>
@@ -167,7 +167,8 @@ static int my_ftdi_write_data(struct udata_s *u, unsigned char *buf, int size, i
 			if (dumpfile)
 				fprintf(dumpfile, "WRITE %d BYTES (buffer full)\n", u->ftdibuf_len);
 #ifdef ASYNC_WRITE
-			rc = ftdi_write_data_async(&u->ftdic, u->ftdibuf, u->ftdibuf_len);
+			struct ftdi_transfer_control* xfer = ftdi_write_data_submit(&u->ftdic, u->ftdibuf, u->ftdibuf_len);
+			rc = ftdi_transfer_data_done(xfer);
 #else
 			rc = ftdi_write_data(&u->ftdic, u->ftdibuf, u->ftdibuf_len);
 #endif
@@ -191,7 +192,8 @@ static int my_ftdi_write_data(struct udata_s *u, unsigned char *buf, int size, i
 		if (dumpfile)
 			fprintf(dumpfile, "WRITE %d BYTES (sync)\n", u->ftdibuf_len);
 #ifdef ASYNC_WRITE
-		rc = ftdi_write_data_async(&u->ftdic, u->ftdibuf, u->ftdibuf_len);
+		struct ftdi_transfer_control* xfer = ftdi_write_data_submit(&u->ftdic, u->ftdibuf, u->ftdibuf_len);
+		rc = ftdi_transfer_data_done(xfer);
 #else
 		rc = ftdi_write_data(&u->ftdic, u->ftdibuf, u->ftdibuf_len);
 #endif
@@ -362,7 +364,7 @@ static void process_next_read_job(struct udata_s *u)
 		return;
 
 #ifdef ASYNC_WRITE
-	ftdi_async_complete(&u->ftdic,1);
+	// DTH TODO :: wait on what?! ftdi_async_complete(&u->ftdic,1);
 #endif
 
 	struct read_job_s *job = u->job_fifo_out;
@@ -594,8 +596,8 @@ found_device:;
 		return -1;
 	}
 
-	if (ftdi_usb_purge_buffers(&u->ftdic) < 0) {
-		fprintf(stderr, "IO Error: Interface setup failed (purge buffers).\n");
+	if (ftdi_tcioflush(&u->ftdic) < 0) {
+		fprintf(stderr, "IO Error: Interface setup failed (tcio flush).\n");
 		ftdi_usb_close(&u->ftdic);
 		ftdi_deinit(&u->ftdic);
 		return -1;
