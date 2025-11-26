@@ -331,12 +331,12 @@ int libxsvf_svf(struct libxsvf_host *h)
 	int command_buffer_len = 0;
 	int rc, i;
 
-	struct bitdata_s bd_hdr = { 0, 0, 0, (void*)0, (void*)0, (void*)0, (void*)0, (void*)0 };
-	struct bitdata_s bd_hir = { 0, 0, 0, (void*)0, (void*)0, (void*)0, (void*)0, (void*)0 };
-	struct bitdata_s bd_tdr = { 0, 0, 0, (void*)0, (void*)0, (void*)0, (void*)0, (void*)0 };
-	struct bitdata_s bd_tir = { 0, 0, 0, (void*)0, (void*)0, (void*)0, (void*)0, (void*)0 };
-	struct bitdata_s bd_sdr = { 0, 0, 0, (void*)0, (void*)0, (void*)0, (void*)0, (void*)0 };
-	struct bitdata_s bd_sir = { 0, 0, 0, (void*)0, (void*)0, (void*)0, (void*)0, (void*)0 };
+	struct bitdata_s bd_hdr = { 0 };
+	struct bitdata_s bd_hir = { 0 };
+	struct bitdata_s bd_tdr = { 0 };
+	struct bitdata_s bd_tir = { 0 };
+	struct bitdata_s bd_sdr = { 0 };
+	struct bitdata_s bd_sir = { 0 };
 
 	int state_endir = LIBXSVF_TAP_IDLE;
 	int state_enddr = LIBXSVF_TAP_IDLE;
