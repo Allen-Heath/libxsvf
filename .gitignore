@@ -1,8 +1,1 @@
-*.a
-*.o
-*.d
-
-xsvftool-dummy
-xsvftool-gpio
-xsvftool-ft232h
-xsvftool-xpcu
+build/
