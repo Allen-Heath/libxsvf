@@ -28,6 +28,8 @@ option(XSVFTOOL_DUMMY   "Build xsvftool-dummy"    OFF)
 option(XSVFTOOL_GPIO    "Build xsvftool-gpio"     OFF)
 option(XSVFTOOL_FT232H  "Build xsvftool-ft232h"   OFF)
 
+add_compile_options("-fmacro-prefix-map=${CMAKE_CURRENT_LIST_DIR}/=")
+
 add_library(xsvf STATIC)
 
 target_include_directories(
