@@ -44,14 +44,17 @@ target_sources(
 if (XSVFTOOL_DUMMY)
   add_executable(xsvftool-dummy xsvftool-dummy.c)
   target_link_libraries(xsvftool-dummy xsvf)
+  install(TARGETS xsvftool-dummy DESTINATION bin)
 endif ()
 
 if (XSVFTOOL_GPIO)
   add_executable(xsvftool-gpio xsvftool-gpio.c)
   target_link_libraries(xsvftool-gpio xsvf)
+  install(TARGETS xsvftool-gpio DESTINATION bin)
 endif ()
 
 if (XSVFTOOL_FT232H)
   add_executable(xsvftool-ft232h xsvftool-ft232h.c)
   target_link_libraries(xsvftool-ft232h xsvf ftdi m)
+  install(TARGETS xsvftool-ft232h DESTINATION bin)
 endif ()
